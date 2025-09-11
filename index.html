@@ -31,6 +31,11 @@
 
     <body data-bs-spy="scroll" data-bs-target="#navBar" id="weddingHome">
 
+        <audio id="bg-music" loop>
+  <source src="audio/PORTIVOLARE.mp3" type="audio/mpeg">
+  Tu navegador no soporta audio HTML5.
+</audio>
+                
         <!-- Spinner Start -->
         <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
             <div class="spinner-grow text-primary" role="status"></div>
@@ -84,7 +89,7 @@
                                 </div>
                                 <h1 class="display-1 text-capitalize text-white mb-3">B <i class="fa fa-heart text-primary"></i> R</h1>
                                 <div class="d-inline-block border-end-0 border-start-0 border-secondary p-2 mb-5" style="border-style: double;">
-                                    <h4 class="text-white text-uppercase fw-bold mb-0" style="letter-spacing: 3px;">Septiembre 2025</h4>
+                                    <h4 class="text-white text-uppercase fw-bold mb-0" style="letter-spacing: 3px;">Septiembre 13 2025</h4>
                                 </div>
                               
                             </div>
@@ -99,7 +104,7 @@
                                 </div>
                                 <h1 class="display-1 text-capitalize text-white mb-3">B <i class="fa fa-heart text-primary"></i> R</h1>
                                 <div class="d-inline-block border-end-0 border-start-0 border-secondary p-2 mb-4" style="border-style: double;">
-                                    <h4 class="text-white text-uppercase fw-bold mb-0" style="letter-spacing: 3px;">Septiembre 2025</h4>
+                                    <h4 class="text-white text-uppercase fw-bold mb-0" style="letter-spacing: 3px;">Septiembre 13 2025</h4>
                                 </div>
                              
                             </div>
@@ -114,7 +119,7 @@
                                 </div>
                                 <h1 class="display-1 text-capitalize text-white mb-3">B <i class="fa fa-heart text-primary"></i> R</h1>
                                 <div class="d-inline-block border-end-0 border-start-0 border-secondary p-2 mb-4" style="border-style: double;">
-                                    <h4 class="text-white text-uppercase fw-bold mb-0" style="letter-spacing: 3px;">Septiembre 2025</h4>
+                                    <h4 class="text-white text-uppercase fw-bold mb-0" style="letter-spacing: 3px;">Septiembre 13 2025</h4>
                                 </div>
                               
                             </div>
@@ -765,13 +770,61 @@ Este espacio es solo una pequeña manera de decirte lo mucho que significas para
             return null;
         }
 
+        const tiempo = calcularTiempoJuntos();
+        var fraseTiempo = `Hoy han pasado ${tiempo.meses} meses y ${tiempo.dias} días desde aquel 25 de mayo… 💖`;
+
         // Máquina de escribir por fases
         var fases = [
-            "Hola, Roxy…",
-            "Promete no reírte 🙈",
-            "Necesito preguntarte algo importante…",
-            "¿Me dejarías ser tu novio?"
+            "Hola, Roxy… 🌹",
+            "Un 25 de mayo de 2025 nuestras vidas se cruzaron 💫",
+            "Ese día, sin saberlo, empezó la mejor parte de mi historia ✨",
+            "Desde entonces, cada risa, cada mirada y cada instante contigo...",
+            "Se han vuelto recuerdos que atesoro en lo más profundo de mi corazón ❤️",
+            fraseTiempo,
+            "Y en este tiempo entendí algo muy claro:",
+            "Eres la persona que hace brillar mis días ✨",
+            "Y que quiero en cada capítulo de mi vida 📖💕",
+            "Por eso hoy",
+            "Necesito hacerte la pregunta más importante…",
+            "¿Me dejarías",     
+            "..",          
+            "..",          
+            "ser",        
+            "..",          
+            "..",          
+            "tu",          
+            "..",    
+            "..",    
+            "..",    
+            "..",          
+            "novio? 💖"
         ];
+
+        function calcularTiempoJuntos() {
+            const inicio = new Date(2025, 4, 25); // meses en JS van 0-11, 4 = mayo
+            const hoy = new Date(); // fecha actual
+
+            let anios = hoy.getFullYear() - inicio.getFullYear();
+            let meses = hoy.getMonth() - inicio.getMonth();
+            let dias = hoy.getDate() - inicio.getDate();
+
+            if (dias < 0) {
+                // Restar un mes si aún no se cumple el día
+                meses--;
+                const mesAnterior = new Date(hoy.getFullYear(), hoy.getMonth(), 0);
+                dias += mesAnterior.getDate();
+            }
+
+            if (meses < 0) {
+                anios--;
+                meses += 12;
+            }
+
+            return { anios, meses, dias };
+        }
+
+
+
         var faseActual = 0, typerTimer = null;
 
         function escribirTexto(texto, callback) {
@@ -789,47 +842,44 @@ Este espacio es solo una pequeña manera de decirte lo mucho que significas para
             }, speed);
         }
 
-        function secuenciaEscritura() {
-    cele.style.display = "none";
-    si1.disabled = true; si2.disabled = true;
-    si1.classList.remove('btn-heartbeat');
-    si2.classList.remove('btn-heartbeat');
-    faseActual = 0;
+function secuenciaEscritura() {
+  cele.style.display = "none";
+  si1.disabled = true; si2.disabled = true;
+  si1.classList.remove('btn-heartbeat');
+  si2.classList.remove('btn-heartbeat');
+  faseActual = 0;
 
-    function siguiente() {
-        if (faseActual < fases.length) {
-            // Si estamos justo ANTES de la última frase:
-            if (faseActual === fases.length - 1) {
-                // Mostrar puntos suspensivos parpadeando
-                linea.textContent = "...";
-                linea.classList.add("type-cursor");
+  function siguiente() {
+    if (faseActual < fases.length) {
+      var texto = fases[faseActual];
 
-                setTimeout(function () {
-                    linea.classList.remove("type-cursor");
-                    // Ahora sí escribe la última frase
-                    escribirTexto(fases[faseActual], function () {
-                        faseActual++;
-                        // Mostrar botones al terminar todo
-                        si1.disabled = false; si2.disabled = false;
-                        si1.classList.add('btn-heartbeat');
-                        si2.classList.add('btn-heartbeat');
-                    });
-                }, 3000); // ⬅️ 3 segundos de suspenso
-            } else {
-                // Para las frases normales
-                escribirTexto(fases[faseActual], function () {
-                    faseActual++;
-                    if (faseActual < fases.length) {
-                        setTimeout(siguiente, 550);
-                    }
-                });
-            }
-        }
+      // Para las últimas frases palabra por palabra (después de la 5ª)
+      if (faseActual >= 5) {
+        escribirTexto(texto, function () {
+          faseActual++;
+          setTimeout(siguiente, 1000); // más suspenso entre palabras
+        });
+      } else {
+        // Frases normales (con pausa más larga que antes)
+        escribirTexto(texto, function () {
+          faseActual++;
+          if (faseActual < fases.length) {
+            setTimeout(siguiente, 2500); // pausa de 2.5s entre frases
+          }
+        });
+      }
+    } else {
+      // Al terminar TODO, mostrar los botones
+      si1.disabled = false; si2.disabled = false;
+      si1.classList.add('btn-heartbeat');
+      si2.classList.add('btn-heartbeat');
     }
+  }
 
-    // 🔥 esperar 4 segundos antes de iniciar la primera frase
-    setTimeout(siguiente, 4000);
+  // 🔥 iniciar la primera frase con pequeña espera
+  setTimeout(siguiente, 2000);
 }
+
 
 
         function lanzarCorazones(n) {
@@ -966,7 +1016,14 @@ Este espacio es solo una pequeña manera de decirte lo mucho que significas para
 });
 </script>
 
-
+    <script>
+        window.addEventListener("click", function() {
+        var audio = document.getElementById("bg-music");
+        if (audio.paused) {
+            audio.play().catch(err => console.log("Error al reproducir:", err));
+        }
+        }, { once: true }); // Solo la primera vez
+    </script>
 
     </body>
 
